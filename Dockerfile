@@ -29,7 +29,7 @@ RUN pyenv install 3.9.14 && pyenv global 3.9.14 && python3 --version
 RUN python3 -m pip install pip setuptools
 RUN python3 -m pip install pipenv
 
-RUN git clone https://github.com/rshariffdeen/Darjeeling.git /opt/darjeeling
+RUN git clone https://github.com/hzxin/Darjeeling.git /opt/darjeeling
 WORKDIR /opt/darjeeling
 RUN git submodule update --init --recursive
 RUN env PIPENV_VENV_IN_PROJECT=1 python3 -m pipenv install --deploy
