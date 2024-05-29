@@ -70,13 +70,31 @@ class PyTestSuite(TestSuite[PyTestCase]):
         coverage: bool = False,
         environment: t.Optional[t.Mapping[str, str]] = None,
     ) -> TestOutcome:
-        if coverage:
-            command = f'coverage run -m pytest {test.name}'
+        pyenv_python_path = '/opt/pyenv/versions/temp/bin/python'
+        pyenv_exist = "test -e /opt/pyenv/versions/temp"
+        pyenv =  container.shell.run(pyenv_exist,
+                                      cwd=self._workdir,
+                                      environment=environment,
+                                      stdout=True,
+                                      stderr=True,
+                                      time_limit=self._time_limit_seconds)
+        if pyenv.returncode == 0:
+            base_command = f"{pyenv_python_path} -m"
         else:
-            command = f'pytest {test.name}'
+            base_command = ""
 
+        if coverage:
+            # bugsinpy - uses pyenv env
+            command = f'{base_command} coverage run -m pytest {test.name}'
+        else:
+            command = f'{base_command} pytest {test.name}'
+        print(f"running command {command}")
         outcome = container.shell.run(command,
                                       cwd=self._workdir,
+                                      environment=environment,
+                                      stdout=True,
+                                      stderr=True,
                                       time_limit=self._time_limit_seconds)  # noqa
+        print(f"Debugging test execution output: {outcome}")
         successful = outcome.returncode == 0
         return TestOutcome(successful=successful, time_taken=outcome.duration)

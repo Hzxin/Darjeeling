@@ -2,44 +2,38 @@ FROM ubuntu:18.04
 MAINTAINER Ridwan Shariffdeen <rshariffdeen@gmail.com>
 RUN apt-get update && apt-get install -y apt-transport-https ca-certificates software-properties-common
 
-# Installing dependencies for Darjeeling
-
-# Refresh local apt keys & update
-RUN apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com \
-    && apt-get update -qq
-
-# add deadsnakes ppa
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
     software-properties-common \
-    && add-apt-repository ppa:deadsnakes/ppa \
     && apt-get update
 
+# Install libraries pyenv will need for Python 3.9.
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    curl \
-    git \
-    nano \
-    python3.9 \
-    python3.9-distutils
+    python3 python3-pip \
+    git nano \
+    libssl-dev libffi-dev libncurses-dev \
+    libbz2-dev liblzma-dev \
+    libreadline-dev libsqlite3-dev \
+    ca-certificates curl \
+    make build-essential autoconf libtool
 
-# remove old, default python version
-RUN apt remove python3.6-minimal -y
-
-# Create a python3 symlink pointing to latest python version
-RUN ln -sf /usr/bin/python3.9 /usr/bin/python3
-
-# Install matching pip version
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python3.9 get-pip.py \
-    && rm get-pip.py
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
+    libssl-dev zlib1g-dev wget llvm libncurses5-dev xz-utils tk-dev
 
 
+WORKDIR /opt
+RUN git clone https://github.com/pyenv/pyenv.git /opt/pyenv
+ENV PYENV_ROOT=/opt/pyenv
+RUN git clone https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
+ENV PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+RUN pyenv install 3.9.14 && pyenv global 3.9.14 && python3 --version
+RUN python3 -m pip install pip setuptools
+RUN python3 -m pip install pipenv
 
-RUN python3 -m pip install pipenv virtualenv
-
-RUN git clone https://github.com/rshariffdeen/Darjeeling /opt/darjeeling
+RUN git clone https://github.com/rshariffdeen/Darjeeling.git /opt/darjeeling
 WORKDIR /opt/darjeeling
 RUN git submodule update --init --recursive
-RUN python3.9 -m pip install .
+RUN env PIPENV_VENV_IN_PROJECT=1 python3 -m pipenv install --deploy
+ENV PATH="/opt/darjeeling/.venv/bin:$PATH"
 
 
 # install dependencies
@@ -59,6 +53,7 @@ ENV LANG C.UTF-8
 RUN apt-get update \
  && apt-get install --no-install-recommends -y sudo patch cmake make libtool \
  && useradd -ms /bin/bash darjeeling \
+ && echo "Defaults secure_path=\"$PATH\"" >> /etc/sudoers \
  && echo 'darjeeling ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
  && adduser darjeeling sudo \
  && apt-get clean \
@@ -67,5 +62,3 @@ RUN apt-get update \
  && sudo chown -R darjeeling /usr/local/bin \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 USER darjeeling
-
-

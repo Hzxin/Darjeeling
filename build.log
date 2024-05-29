@@ -1,0 +1,185 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 63B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 2.20kB done
+#2 DONE 0.0s
+
+#3 [auth] library/ubuntu:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/ubuntu:22.04
+#4 DONE 1.6s
+
+#5 [ 1/16] FROM docker.io/library/ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2
+#5 DONE 0.0s
+
+#6 [ 2/16] RUN apt update -eany && apt install -y     python3 python3-pip     git     libssl-dev libffi-dev libncurses-dev     libbz2-dev liblzma-dev     libreadline-dev libsqlite3-dev     ca-certificates curl     make build-essential autoconf libtool     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [ 4/16] RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc     && chmod a+r /etc/apt/keyrings/docker.asc
+#7 CACHED
+
+#8 [ 3/16] RUN install -m 0755 -d /etc/apt/keyrings
+#8 CACHED
+
+#9 [ 6/16] RUN apt update && apt install -y docker-ce-cli && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [ 7/16] WORKDIR /opt
+#10 CACHED
+
+#11 [ 8/16] RUN git clone --depth=1 https://github.com/pyenv/pyenv.git pyenv
+#11 CACHED
+
+#12 [ 5/16] RUN echo     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu     $(. /etc/os-release && echo "$UBUNTU_CODENAME") stable"     > /etc/apt/sources.list.d/docker.list
+#12 CACHED
+
+#13 [ 9/16] RUN pyenv install 3.9 && pyenv global 3.9 && python3 --version
+#13 CACHED
+
+#14 [10/16] RUN python3 -m ensurepip
+#14 1.455 Looking in links: /tmp/tmp7l803que
+#14 1.455 Requirement already satisfied: setuptools in ./pyenv/versions/3.9.19/lib/python3.9/site-packages (58.1.0)
+#14 1.455 Requirement already satisfied: pip in ./pyenv/versions/3.9.19/lib/python3.9/site-packages (23.0.1)
+#14 1.471 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#14 DONE 1.5s
+
+#15 [11/16] RUN python3 -m pip install --upgrade pip setuptools
+#15 0.812 Requirement already satisfied: pip in ./pyenv/versions/3.9.19/lib/python3.9/site-packages (23.0.1)
+#15 0.916 Collecting pip
+#15 0.966   Downloading pip-24.0-py3-none-any.whl (2.1 MB)
+#15 1.161      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 10.9 MB/s eta 0:00:00
+#15 1.167 Requirement already satisfied: setuptools in ./pyenv/versions/3.9.19/lib/python3.9/site-packages (58.1.0)
+#15 1.348 Collecting setuptools
+#15 1.353   Downloading setuptools-69.5.1-py3-none-any.whl (894 kB)
+#15 1.432      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 894.6/894.6 kB 11.4 MB/s eta 0:00:00
+#15 1.507 Installing collected packages: setuptools, pip
+#15 1.507   Attempting uninstall: setuptools
+#15 1.507     Found existing installation: setuptools 58.1.0
+#15 1.539     Uninstalling setuptools-58.1.0:
+#15 1.570       Successfully uninstalled setuptools-58.1.0
+#15 1.917   Attempting uninstall: pip
+#15 1.917     Found existing installation: pip 23.0.1
+#15 2.026     Uninstalling pip-23.0.1:
+#15 2.113       Successfully uninstalled pip-23.0.1
+#15 2.908 Successfully installed pip-24.0 setuptools-69.5.1
+#15 2.908 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#15 DONE 3.1s
+
+#16 [12/16] RUN python3 -m pip install pipenv
+#16 0.935 Collecting pipenv
+#16 0.987   Downloading pipenv-2023.12.1-py3-none-any.whl.metadata (19 kB)
+#16 1.018 Collecting certifi (from pipenv)
+#16 1.022   Downloading certifi-2024.2.2-py3-none-any.whl.metadata (2.2 kB)
+#16 1.025 Requirement already satisfied: setuptools>=67 in ./pyenv/versions/3.9.19/lib/python3.9/site-packages (from pipenv) (69.5.1)
+#16 1.091 Collecting virtualenv>=20.24.2 (from pipenv)
+#16 1.095   Downloading virtualenv-20.26.2-py3-none-any.whl.metadata (4.4 kB)
+#16 1.149 Collecting distlib<1,>=0.3.7 (from virtualenv>=20.24.2->pipenv)
+#16 1.152   Downloading distlib-0.3.8-py2.py3-none-any.whl.metadata (5.1 kB)
+#16 1.175 Collecting filelock<4,>=3.12.2 (from virtualenv>=20.24.2->pipenv)
+#16 1.179   Downloading filelock-3.14.0-py3-none-any.whl.metadata (2.8 kB)
+#16 1.201 Collecting platformdirs<5,>=3.9.1 (from virtualenv>=20.24.2->pipenv)
+#16 1.204   Downloading platformdirs-4.2.2-py3-none-any.whl.metadata (11 kB)
+#16 1.227 Downloading pipenv-2023.12.1-py3-none-any.whl (3.1 MB)
+#16 1.559    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 9.4 MB/s eta 0:00:00
+#16 1.565 Downloading virtualenv-20.26.2-py3-none-any.whl (3.9 MB)
+#16 1.906    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.9/3.9 MB 11.5 MB/s eta 0:00:00
+#16 1.910 Downloading certifi-2024.2.2-py3-none-any.whl (163 kB)
+#16 1.926    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 163.8/163.8 kB 10.9 MB/s eta 0:00:00
+#16 2.021 Downloading distlib-0.3.8-py2.py3-none-any.whl (468 kB)
+#16 2.063    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 468.9/468.9 kB 11.4 MB/s eta 0:00:00
+#16 2.067 Downloading filelock-3.14.0-py3-none-any.whl (12 kB)
+#16 2.073 Downloading platformdirs-4.2.2-py3-none-any.whl (18 kB)
+#16 2.128 Installing collected packages: distlib, platformdirs, filelock, certifi, virtualenv, pipenv
+#16 3.379 Successfully installed certifi-2024.2.2 distlib-0.3.8 filelock-3.14.0 pipenv-2023.12.1 platformdirs-4.2.2 virtualenv-20.26.2
+#16 3.379 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#16 DONE 3.5s
+
+#17 [13/16] RUN git clone https://github.com/Hzxin/Darjeeling.git /opt/darjeeling
+#17 0.466 Cloning into '/opt/darjeeling'...
+#17 DONE 1.5s
+
+#18 [14/16] WORKDIR /opt/darjeeling
+#18 DONE 0.0s
+
+#19 [15/16] RUN ls && env PIPENV_VENV_IN_PROJECT=1 python3 -m pipenv install --deploy
+#19 0.452 Dockerfile
+#19 0.452 LICENSE
+#19 0.452 Pipfile
+#19 0.452 Pipfile.lock
+#19 0.452 README.rst
+#19 0.452 a.txt
+#19 0.452 docs
+#19 0.452 example
+#19 0.452 requirements.dev.txt
+#19 0.452 setup.cfg
+#19 0.452 setup.py
+#19 0.452 src
+#19 0.452 tests
+#19 0.778 Warning: the environment variable LANG is not set!
+#19 0.778 We recommend setting this in ~/.profile (or equivalent) for proper expected behavior.
+#19 1.095 Creating a virtualenv for this project...
+#19 1.095 Pipfile: /opt/darjeeling/Pipfile
+#19 1.105 Using /opt/pyenv/versions/3.9.19/bin/python3 (3.9.19) to create virtualenv...
+#19 1.433 created virtual environment CPython3.9.19.final.0-64 in 200ms
+#19 1.433   creator CPython3Posix(dest=/opt/darjeeling/.venv, clear=False, no_vcs_ignore=False, global=False)
+#19 1.433   seeder FromAppData(download=False, pip=bundle, setuptools=bundle, wheel=bundle, via=copy, app_data_dir=/root/.local/share/virtualenv)
+#19 1.433     added seed packages: pip==24.0, setuptools==69.5.1, wheel==0.43.0
+#19 1.433   activators BashActivator,CShellActivator,FishActivator,NushellActivator,PowerShellActivator,PythonActivator
+#19 1.433 
+#19 1.434 ✔ Successfully created virtual environment!
+#19 1.457 Virtualenv location: /opt/darjeeling/.venv
+#19 1.474 Installing dependencies from Pipfile.lock (469f26)...
+#19 DONE 9.4s
+
+#20 [16/16] RUN apt-get update  && apt-get install --no-install-recommends -y sudo patch cmake make libtool  && useradd -ms /bin/bash darjeeling  && echo 'darjeeling ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers  && adduser darjeeling sudo  && apt-get clean  && mkdir -p /home/darjeeling  && sudo chown -R darjeeling /home/darjeeling  && sudo chown -R darjeeling /usr/local/bin  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#20 0.535 Get:1 https://download.docker.com/linux/ubuntu jammy InRelease [48.8 kB]
+#20 0.584 Get:2 https://download.docker.com/linux/ubuntu jammy/stable amd64 Packages [38.5 kB]
+#20 1.101 Get:3 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+#20 1.144 Get:4 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]
+#20 2.530 Get:5 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [44.7 kB]
+#20 2.696 Get:6 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
+#20 2.932 Get:7 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [1848 kB]
+#20 3.069 Get:8 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [109 kB]
+#20 4.298 Get:9 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+#20 7.620 Get:10 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1083 kB]
+#20 8.295 Get:11 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [2383 kB]
+#20 21.22 Get:12 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+#20 21.29 Get:13 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+#20 22.01 Get:14 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+#20 22.12 Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [2457 kB]
+#20 28.81 Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [2118 kB]
+#20 31.37 Get:17 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [51.1 kB]
+#20 31.42 Get:18 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1374 kB]
+#20 32.61 Get:19 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [31.9 kB]
+#20 32.63 Get:20 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [81.0 kB]
+#20 32.71 Fetched 31.9 MB in 32s (990 kB/s)
+#20 32.71 Reading package lists...
+#20 33.28 Reading package lists...
+#20 33.84 Building dependency tree...
+#20 33.93 Reading state information...
+#20 34.05 libtool is already the newest version (2.4.6-15build2).
+#20 34.05 make is already the newest version (4.3-4.1build1).
+#20 34.05 patch is already the newest version (2.7.6-7build2).
+#20 34.05 patch set to manually installed.
+#20 34.05 The following additional packages will be installed:
+#20 34.05   cmake-data dh-elpa-helper emacsen-common libarchive13 libicu70 libjsoncpp25
+#20 34.05   librhash0 libuv1 libxml2
+#20 34.05 Suggested packages:
+#20 34.05   cmake-doc ninja-build cmake-format lrzip
+#20 34.07 The following NEW packages will be installed:
+#20 34.07   cmake cmake-data dh-elpa-helper emacsen-common libarchive13 libicu70
+#20 34.07   libjsoncpp25 librhash0 libuv1 libxml2 sudo
+#20 35.32 0 upgraded, 11 newly installed, 0 to remove and 0 not upgraded.
+#20 35.32 Need to get 19.8 MB of archives.
+#20 35.32 After this operation, 73.0 MB of additional disk space will be used.
+#20 35.32 Get:1 http://archive.ubuntu.com/ubuntu jammy/main amd64 libicu70 amd64 70.1-2 [10.6 MB]
+#20 38.41 Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libxml2 amd64 2.9.13+dfsg-1ubuntu0.4 [763 kB]
+#20 41.72 Get:3 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 sudo amd64 1.9.9-1ubuntu2.4 [821 kB]
+#20 42.85 Get:4 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libuv1 amd64 1.43.0-1ubuntu0.1 [92.7 kB]
+#20 42.97 Get:5 http://archive.ubuntu.com/ubuntu jammy/main amd64 libarchive13 amd64 3.6.0-1ubuntu1 [368 kB]
+#20 43.44 Get:6 http://archive.ubuntu.com/ubuntu jammy/main amd64 libjsoncpp25 amd64 1.9.5-3 [80.0 kB]
+#20 CANCELED
+ERROR: failed to solve: Canceled: context canceled

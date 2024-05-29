@@ -54,8 +54,18 @@ class CoveragePyCollector(CoverageCollector):
         files = container.filesystem
         shell = container.shell
         temporary_filename = files.mktemp()
-        command = (f'coverage json -o {temporary_filename} '
-                   '--omit="tests/* && coverage erase"')
-        shell.check_call(command, cwd=self.program.source_directory)
+        pyenv_python_path = '/opt/pyenv/versions/temp/bin/python'
+        # Check pyenv path
+        check_bm_cmd = "test -e /opt/pyenv/versions/temp"
+        pyenv_outcome =  shell.run(check_bm_cmd,
+                                      cwd=self.program.source_directory,
+                                      stdout=True,
+                                      stderr=True)
+        if pyenv_outcome.returncode == 0:
+            # Omit system deps/files
+            command = (f'{pyenv_python_path} -m coverage json -o {temporary_filename} --omit="tests/*,/opt/pyenv/*" && coverage erase')
+        else:
+            command = (f'coverage json -o {temporary_filename} --omit="tests/*" && coverage erase')
+        shell.check_output(command, cwd=self.program.source_directory)
         report_text = files.read(temporary_filename)
         return self._read_report_text(report_text)
