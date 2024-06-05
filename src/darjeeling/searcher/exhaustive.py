@@ -3,6 +3,7 @@ __all__ = ('ExhaustiveSearcher',)
 
 from typing import Any, Dict, Iterable, Iterator, Optional
 import typing
+import os
 
 from loguru import logger
 
@@ -101,9 +102,25 @@ class ExhaustiveSearcher(Searcher):
         for _ in range(self.num_workers):
             candidate = self._generate()
             self.evaluate(candidate)
-
+        index = 0
         for candidate, outcome in self.as_evaluated():
+            index += 1
             if outcome.is_repair:
                 logger.info('found plausible patch')
+                self._save_patches_to_disk(candidate, index)
                 yield candidate
             self.evaluate(self._generate())
+    
+    def _save_patches_to_disk(self, candidate, index) -> None:
+        dir_patches = "/output/patches"
+        os.makedirs(dir_patches, exist_ok=True)
+        logger.debug("Getting patch diff")
+        diff = str(candidate.to_diff())
+        fn_patch = os.path.join(dir_patches, f'{index}temp.diff')
+        try:
+            logger.debug(f"writing patch to {fn_patch}")
+            with open(fn_patch, 'w') as f:
+                f.write(diff)
+        except OSError:
+            logger.exception(f"failed to write patch: {fn_patch}")
+            raise
