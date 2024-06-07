@@ -63,7 +63,7 @@ class CoveragePyCollector(CoverageCollector):
                                       stderr=True)
         if pyenv_outcome.returncode == 0:
             # Omit system deps/files
-            command = (f'{pyenv_python_path} -m coverage json -o {temporary_filename} --omit="tests/*,/opt/pyenv/*" && coverage erase')
+            command = (f'{pyenv_python_path} -m coverage json -o {temporary_filename} --omit="tests/*,test/*,/opt/pyenv/*" && coverage erase')
         else:
             command = (f'coverage json -o {temporary_filename} --omit="tests/*" && coverage erase')
         shell.check_output(command, cwd=self.program.source_directory)
